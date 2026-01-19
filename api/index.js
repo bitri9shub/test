@@ -1,8 +1,11 @@
 require("dotenv").config()
 const express = require('express')
 const cookieParser = require("cookie-parser")
+const swaggerJsDoc = require('swagger-jsdoc')
+const SwaggerUI = require("swagger-ui-express")
 
 const { connectDB } = require("./src/config/db")
+const { options } = require("./src/config/swagger")
 
 const chapterRouter = require("./src/routers/chapter.router")
 const courseRouter = require("./src/routers/course.router")
@@ -14,10 +17,12 @@ const app = express()
 
 const port = process.env.PORT
 const MONGO_URI = process.env.MONGO_URI
+const swaggerSpec = swaggerJsDoc(options)
 
 app.use(express.json())
 app.use(cookieParser())
 
+app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerSpec))
 app.use('/chapter', chapterRouter)
 app.use('/course', courseRouter)
 app.use('/section', sectionRouter)

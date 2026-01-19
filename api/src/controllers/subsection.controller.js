@@ -1,4 +1,3 @@
-const { default: mongoose } = require("mongoose")
 const { subSectionModel } = require("../models/subsection.model")
 
 exports.getSubSections = async (req, res) => {
