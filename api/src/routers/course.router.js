@@ -6,13 +6,14 @@ const {
     updateCourseById,
     deleteCourseById
 } = require("../controllers/course.controller")
+const { requireAuth } = require("../middlewares/auth.middleware")
 
 const router = express.Router()
 
 router.get("/", getCourses)
 router.get("/:id", getCourseById)
-router.post("/", createCourse)
-router.patch("/:id", updateCourseById)
-router.delete("/:id", deleteCourseById)
+router.post("/", requireAuth, createCourse)
+router.patch("/:id", requireAuth, updateCourseById)
+router.delete("/:id", requireAuth, deleteCourseById)
 
 module.exports = router

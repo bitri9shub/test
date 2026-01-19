@@ -42,14 +42,14 @@ exports.getSectionById = async (req, res) => {
 exports.createSection = async (req, res) => {
     try {
         const { title, description } = req.body
-        if (!title || !description) return res.status(400).json({
+        if (!title?.trim() || !description?.trim()) return res.status(400).json({
             success: false,
             message: "Title and description are required"
         })
         const section = await sectionModel.create({
             title,
             description,
-            author: new mongoose.Types.ObjectId() // retrieve user id later, when auth is created
+            author: req.userId
         })
         return res.status(201).json({
             success: true,
@@ -68,7 +68,7 @@ exports.createSection = async (req, res) => {
 exports.updateSectionById = async (req, res) => {
     try {
         const { title, description } = req.body
-        if (!title || !description) return res.status(400).json({
+        if (!title?.trim() || !description?.trim()) return res.status(400).json({
             success: false,
             message: "Title and description are required"
         })

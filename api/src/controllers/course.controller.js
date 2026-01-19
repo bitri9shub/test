@@ -42,7 +42,7 @@ exports.getCourseById = async (req, res) => {
 exports.createCourse = async (req, res) => {
     try {
         const { title, description, themes } = req.body
-        if (!title || !description || !themes) return res.status(400).json({
+        if (!title?.trim() || !description?.trim() || !themes?.trim()) return res.status(400).json({
             success: false,
             message: "Title, themes and description are required"
         })
@@ -50,7 +50,7 @@ exports.createCourse = async (req, res) => {
             title,
             description,
             chapters: [],
-            author: new mongoose.Types.ObjectId(), // retrieve user id later, when auth is created
+            author: req.userId
         })
         return res.status(201).json({
             success: true,
@@ -69,7 +69,7 @@ exports.createCourse = async (req, res) => {
 exports.updateCourseById = async (req, res) => {
     try {
         const { title, description, themes } = req.body
-        if (!title || !description || !themes) return res.status(400).json({
+        if (!title?.trim() || !description?.trim() || !themes?.trim()) return res.status(400).json({
             success: false,
             message: "Title, themes and description are required"
         })

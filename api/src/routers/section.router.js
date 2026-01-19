@@ -6,13 +6,14 @@ const {
     updateSectionById,
     deleteSectionById
 } = require("../controllers/section.controller")
+const { requireAuth } = require("../middlewares/auth.middleware")
 
 const router = express.Router()
 
 router.get("/", getSections)
 router.get("/:id", getSectionById)
-router.post("/", createSection)
-router.patch("/:id", updateSectionById)
-router.delete("/:id", deleteSectionById)
+router.post("/", requireAuth, createSection)
+router.patch("/:id", requireAuth, updateSectionById)
+router.delete("/:id", requireAuth, deleteSectionById)
 
 module.exports = router
